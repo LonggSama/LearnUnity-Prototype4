@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5727592998606554334}
   - component: {fileID: 36884102909058478}
   - component: {fileID: 8052400426280540186}
+  - component: {fileID: 3531526862663980888}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: PowerUp
@@ -110,3 +111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d522bebb25bc4428593b8eae0c1268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpStrength: 15
+--- !u!114 &3531526862663980888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727592998604600250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816d42057b37f7a4d8c261f4a6c0a736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinSpeed: 30
