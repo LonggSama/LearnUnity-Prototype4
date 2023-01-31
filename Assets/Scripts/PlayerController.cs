@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //public static PlayerController Ins;
+
     [SerializeField] float playerSpeed = 5.0f;
+    [SerializeField] float powerUpStrength = 15f;
 
     private Rigidbody playerRb;
     private GameObject focalPoint;
+    [SerializeField] private GameObject powerupIndicator;
 
     public bool isGround;
+    public bool isPowerUp;
 
     // Start is called before the first frame update
     void Awake()
     {
+        //Ins = this;
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
     }
@@ -22,6 +28,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerMove();
+        PowerUpIndicatorMove();
     }
 
     // Move player Forward by up and down
@@ -40,6 +47,15 @@ public class PlayerController : MonoBehaviour
         {
             isGround = true;
         }
+
+        if (collision.gameObject.CompareTag("Enemy") && isPowerUp)
+        {
+            Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
+
+            enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
+            Debug.Log("An " + collision.gameObject.name + " with powerup set to " + isPowerUp);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -48,5 +64,28 @@ public class PlayerController : MonoBehaviour
         {
             isGround = false;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PowerUp"))
+        {
+            isPowerUp = true;
+            powerupIndicator.SetActive(true);
+            Destroy(other.gameObject);
+            StartCoroutine(PowerUpCountDown());
+        }
+    }
+
+    IEnumerator PowerUpCountDown()
+    {
+        yield return new WaitForSeconds(5);
+        isPowerUp = false;
+        powerupIndicator.SetActive(false);
+    }
+
+    void PowerUpIndicatorMove()
+    {
+        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.25f,0);
     }
 }
