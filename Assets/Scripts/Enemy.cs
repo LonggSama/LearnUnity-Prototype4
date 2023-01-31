@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody enemyRb;
 
     private bool isEnemyGround;
+    private float destroyBound = -10;
 
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class Enemy : MonoBehaviour
         {
             FollowPlayer();
         }
+        DestroyEnemy();
     }
 
     void FollowPlayer()
@@ -49,6 +51,14 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isEnemyGround = false;
+        }
+    }
+
+    void DestroyEnemy()
+    {
+        if (transform.position.y < destroyBound)
+        {
+            Destroy(gameObject);
         }
     }
 }
