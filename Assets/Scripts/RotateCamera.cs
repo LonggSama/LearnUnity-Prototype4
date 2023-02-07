@@ -6,6 +6,11 @@ public class RotateCamera : MonoBehaviour
 {
     [SerializeField] float rotationSpeed;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -15,7 +20,7 @@ public class RotateCamera : MonoBehaviour
     // Rotate Camera left or right
     void RotateCam()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
     }
 }

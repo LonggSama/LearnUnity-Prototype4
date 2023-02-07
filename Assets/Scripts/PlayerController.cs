@@ -39,7 +39,9 @@ public class PlayerController : MonoBehaviour
         if (isGround)
         {
             float forwardInput = Input.GetAxis("Vertical");
+            float horizontalTnput = Input.GetAxis("Horizontal");
             playerRb.AddForce(focalPoint.transform.forward * forwardInput * playerSpeed);
+            playerRb.AddForce(focalPoint.transform.right * horizontalTnput * playerSpeed);
         }
     }
 
