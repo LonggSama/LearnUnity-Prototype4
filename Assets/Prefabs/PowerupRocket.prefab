@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4401835760137330831}
   - component: {fileID: 4401835760136225089}
   - component: {fileID: 44815308209167637}
-  - component: {fileID: 3439002740157197667}
   - component: {fileID: 7335373491273784554}
+  - component: {fileID: -1106081438534163979}
   m_Layer: 0
-  m_Name: FireUp
+  m_Name: PowerupRocket
   m_TagString: FireUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,18 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spinSpeed: 15
---- !u!114 &3439002740157197667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4401835760138408331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fc17be721b39c64bb66d36c78026360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &7335373491273784554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -124,3 +112,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8328991, y: 1.0383196, z: 0.20007595}
   m_Center: {x: 0.0000009685755, y: 0, z: 0.000000014901161}
+--- !u!114 &-1106081438534163979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4401835760138408331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d522bebb25bc4428593b8eae0c1268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpType: 2

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7588351380735086183}
   - component: {fileID: 7588351380736159657}
   - component: {fileID: 3633436217215944197}
+  - component: {fileID: 1148641983223258327}
+  - component: {fileID: -8949974493789491088}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -96,4 +98,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 816d42057b37f7a4d8c261f4a6c0a736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinSpeed: 50
+  spinSpeed: 500
+--- !u!65 &1148641983223258327
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7588351380738211683}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8328991, y: 1.0383198, z: 0.200076}
+  m_Center: {x: 0.0000009685755, y: 0, z: 0.000000014901165}
+--- !u!114 &-8949974493789491088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7588351380738211683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3fab3b6dcdb6a44bb0a21e27084bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
+  rocketStrength: 15
+  aliveTimer: 5

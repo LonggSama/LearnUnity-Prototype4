@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8052400426280540186}
   - component: {fileID: 3531526862663980888}
   m_Layer: 0
-  m_Name: PowerUp
+  m_Name: PowerupPushback
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d522bebb25bc4428593b8eae0c1268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpStrength: 15
+  powerUpType: 1
 --- !u!114 &3531526862663980888
 MonoBehaviour:
   m_ObjectHideFlags: 0

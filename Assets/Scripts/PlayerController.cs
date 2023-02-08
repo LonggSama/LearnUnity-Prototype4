@@ -6,17 +6,24 @@ public class PlayerController : MonoBehaviour
 {
     //public static PlayerController Ins;
 
+    public PowerUpType currentPowerUp = PowerUpType.None;
+
     [SerializeField] float playerSpeed = 5.0f;
 
     [SerializeField] float powerUpStrength = 15f;
 
+    [SerializeField] private GameObject powerupIndicator;
+
+    [SerializeField] GameObject rocketPrefab;
+
+    private GameObject tmpRocket;
     private Rigidbody playerRb;
     private GameObject focalPoint;
-    [SerializeField] private GameObject powerupIndicator;
+    private Coroutine powerupCountdown;
+    private bool isFire = true;
 
     public bool isGround;
     public bool isPowerUp;
-    public bool isFireUp;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,6 +38,11 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMove();
         PowerUpIndicatorMove();
+
+        if (currentPowerUp == PowerUpType.Rockets && isFire)
+        {
+            LaunchRockets();
+        }
     }
 
     // Move player Forward by up and down
@@ -52,14 +64,25 @@ public class PlayerController : MonoBehaviour
             isGround = true;
         }
 
-        if (collision.gameObject.CompareTag("Enemy") && isPowerUp)
+        if (collision.gameObject.CompareTag("Enemy") && currentPowerUp == PowerUpType.Pushback)
         {
             Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
-
             enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
-            //Debug.Log("An " + collision.gameObject.name + " with powerup set to " + isPowerUp + " and Power Strength is "+ powerUp.powerUpStrength);
+
+            Debug.Log("Player collied with: " + collision.gameObject.name + " with powerup set to " + currentPowerUp.ToString());
         }
+    }
+
+    void LaunchRockets()
+    {
+        foreach (var enemy in FindObjectsOfType<Enemy>())
+        {
+            tmpRocket = Instantiate(rocketPrefab, transform.position + Vector3.up, transform.rotation);
+            tmpRocket.GetComponent<RocketsBehaviour>().Fire(enemy.transform);
+            isFire = false;
+        }
+        StartCoroutine(LaunchRocketCountDown());
     }
 
     private void OnCollisionExit(Collision collision)
@@ -72,12 +95,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PowerUp"))
+        if (other.CompareTag("PowerUp"))
         {
             isPowerUp = true;
+            currentPowerUp = other.gameObject.GetComponent<PowerUp>().powerUpType;
             powerupIndicator.SetActive(true);
             Destroy(other.gameObject);
-            StartCoroutine(PowerUpCountDown());
+
+            if (powerupCountdown != null)
+            {
+                StopCoroutine(powerupCountdown);
+            }
+            powerupCountdown = StartCoroutine(PowerUpCountDown());
         }
     }
 
@@ -85,8 +114,14 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         isPowerUp = false;
-        isFireUp = false;
+        currentPowerUp = PowerUpType.None;
         powerupIndicator.SetActive(false);
+    }
+
+    IEnumerator LaunchRocketCountDown()
+    {
+        yield return new WaitForSeconds(1);
+        isFire = true;
     }
 
     void PowerUpIndicatorMove()

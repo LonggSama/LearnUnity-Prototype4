@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] GameObject[] enemyPrefabs;
-    [SerializeField] GameObject powerupPrefabs;
+    [SerializeField] GameObject[] powerupPrefabs;
     [SerializeField] float spawnRange = 10f;
 
     public int enemyCount;
@@ -39,10 +39,11 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnPowerUp()
     {
+        int powerupIndex = Random.Range(0, powerupPrefabs.Length);
         powerupCount = FindObjectsOfType<PowerUp>().Length;
         if (powerupCount == 0)
         {
-            Instantiate(powerupPrefabs, GenerateSpawnPostion(), powerupPrefabs.transform.rotation);
+            Instantiate(powerupPrefabs[powerupIndex], GenerateSpawnPostion(), powerupPrefabs[powerupIndex].transform.rotation);
         }
     }
 
