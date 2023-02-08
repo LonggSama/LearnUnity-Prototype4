@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float playerSpeed = 5.0f;
 
-    private PowerUp powerUp;
+    [SerializeField] float powerUpStrength = 15f;
 
     private Rigidbody playerRb;
     private GameObject focalPoint;
@@ -16,12 +16,12 @@ public class PlayerController : MonoBehaviour
 
     public bool isGround;
     public bool isPowerUp;
+    public bool isFireUp;
 
     // Start is called before the first frame update
     void Awake()
     {
         //Ins = this;
-        powerUp = GameObject.Find("PowerUp").GetComponent<PowerUp>();
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
     }
@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
             Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
 
-            enemyRb.AddForce(awayFromPlayer * powerUp.powerUpStrength, ForceMode.Impulse);
-            Debug.Log("An " + collision.gameObject.name + " with powerup set to " + isPowerUp + " and Power Strength is "+ powerUp.powerUpStrength);
+            enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse);
+            //Debug.Log("An " + collision.gameObject.name + " with powerup set to " + isPowerUp + " and Power Strength is "+ powerUp.powerUpStrength);
         }
     }
 
@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         isPowerUp = false;
+        isFireUp = false;
         powerupIndicator.SetActive(false);
     }
 
