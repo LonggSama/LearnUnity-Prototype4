@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         foreach (var enemy in FindObjectsOfType<Enemy>())
         {
-            tmpRocket = Instantiate(rocketPrefab, transform.position + Vector3.up, transform.rotation);
+            tmpRocket = Instantiate(rocketPrefab, transform.position + Vector3.up, Quaternion.identity);
             tmpRocket.GetComponent<RocketsBehaviour>().Fire(enemy.transform);
             isFire = false;
         }
