@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour
     //public static PlayerController Ins;
 
     public PowerUpType currentPowerUp = PowerUpType.None;
+    public float hangTime;
+    public float smashSpeed;
+    public float explosionForce;
+    public float explosionRadius;
 
     [SerializeField] float playerSpeed = 5.0f;
 
@@ -20,10 +24,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private GameObject focalPoint;
     private Coroutine powerupCountdown;
+
+    float floorY;
+
     private bool isFire = true;
 
     public bool isGround;
     public bool isPowerUp;
+    public bool smashing = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -42,6 +50,12 @@ public class PlayerController : MonoBehaviour
         if (currentPowerUp == PowerUpType.Rockets && isFire)
         {
             LaunchRockets();
+        }
+
+        if (currentPowerUp == PowerUpType.SuperSmash && Input.GetKeyDown(KeyCode.Space))
+        {
+            smashing = true;
+            StartCoroutine(Smash());
         }
     }
 
@@ -128,4 +142,36 @@ public class PlayerController : MonoBehaviour
     {
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.25f,0);
     }
+
+    IEnumerator Smash()
+    {
+        var enemies = FindObjectsOfType<Enemy>();
+
+        floorY = transform.position.y;
+
+        float jumpTime = Time.time + hangTime;
+
+        while(Time.time < jumpTime)
+        {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, smashSpeed);
+            yield return null;
+        }
+
+        while (transform.position.y > floorY)
+        {
+            playerRb.velocity = new Vector2(playerRb.velocity.x, -smashSpeed * 2);
+            yield return null;
+        }
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null)
+            {
+                enemies[i].GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
+            }
+        }
+
+        smashing = false;
+    }
 }
+
