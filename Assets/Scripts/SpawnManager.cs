@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
+
     [SerializeField] GameObject[] enemyPrefabs;
+    [SerializeField] GameObject bossPrefab;
     [SerializeField] GameObject[] powerupPrefabs;
     [SerializeField] float spawnRange = 10f;
+    [SerializeField] int waveSpawnBoss;
 
     public int enemyCount;
     public int powerupCount;
 
     private int waveNumber = 1;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +43,18 @@ public class SpawnManager : MonoBehaviour
         if (enemyCount == 0)
         {
             waveNumber++;
-            SpawnEnemyWay(waveNumber);
             SpawnPowerUp();
+            if (waveNumber % waveSpawnBoss != 0)
+            {
+                Debug.Log("Wave " + waveNumber);
+                SpawnEnemyWay(waveNumber);
+            }
+            else if (waveNumber % waveSpawnBoss == 0)
+            {
+                Debug.Log("Wave " + waveNumber);
+                Debug.Log("Wave " + waveSpawnBoss);
+                SpawnBoss();
+            }
         }
     }
 
@@ -35,6 +62,11 @@ public class SpawnManager : MonoBehaviour
     {
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         Instantiate(enemyPrefabs[enemyIndex], GenerateSpawnPostion(), enemyPrefabs[enemyIndex].transform.rotation);
+    }
+
+    void SpawnBoss()
+    {
+        Instantiate(bossPrefab, GenerateSpawnPostion(), bossPrefab.transform.rotation);
     }
 
     void SpawnPowerUp()
@@ -47,7 +79,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private Vector3 GenerateSpawnPostion()
+    public Vector3 GenerateSpawnPostion()
     {
         float spawnPosX = Random.Range(-spawnRange, spawnRange);
         float spawnPosZ = Random.Range(-spawnRange, spawnRange);
